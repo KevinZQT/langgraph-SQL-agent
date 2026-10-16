@@ -1,0 +1,68 @@
+name: sql-langgraph
+
+services:
+  langgraph-redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  langgraph-postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: langgraph
+      POSTGRES_USER: langgraph
+      POSTGRES_PASSWORD: ${LANGGRAPH_POSTGRES_PASSWORD:?Set LANGGRAPH_POSTGRES_PASSWORD in .env}
+    volumes:
+      - langgraph-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U langgraph -d langgraph"]
+      interval: 5s
+      timeout: 3s
+      start_period: 10s
+      retries: 10
+
+  langgraph-api:
+    # Build this image with: langgraph build -t sql-langgraph-api:latest
+    image: sql-langgraph-api:latest
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+        LANGSMITH_API_KEY: ${LANGSMITH_API_KEY:?Set LANGSMITH_API_KEY in .env}
+        REDIS_URI: redis://langgraph-redis:6379
+        DATABASE_URI: postgresql://langgraph:${LANGGRAPH_POSTGRES_PASSWORD}@langgraph-postgres:5432/langgraph?sslmode=disable
+        DB_HOST: ${DB_HOST:?Set DB_HOST in .env}
+        DB_PORT: ${DB_PORT:-5432}
+        DB_NAME: ${DB_NAME:-pagila}
+        DB_USER: ${DB_USER:?Set DB_USER in .env}
+        DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in .env}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      langgraph-redis:
+        condition: service_healthy
+      langgraph-postgres:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8123:8000"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    restart: unless-stopped
+    environment:
+      API_URL: http://langgraph-api:8000
+      LANGGRAPH_ASSISTANT_ID: sql_agent
+    depends_on:
+      - langgraph-api
+    ports:
+      - "127.0.0.1:8501:8501"
+
+volumes:
+  langgraph-data:

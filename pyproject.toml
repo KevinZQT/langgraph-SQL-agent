@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sql-langgraph-agent"
+version = "0.1.0"
+description = "SQL and web-search assistant for LangGraph Agent Server"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=1.0,<2.0",
+    "langchain-core>=1.0,<2.0",
+    "langchain-openai>=1.0,<2.0",
+    "langgraph>=1.0,<2.0",
+    "langchain-tavily>=0.2,<1.0",
+    "sqlalchemy>=2.0,<3.0",
+    "psycopg[binary]>=3.2,<4.0",
+    "python-dotenv>=1.0,<2.0",
+    "pydantic>=2.0,<3.0"
+]
+
+[tool.setuptools.packages.find]
+include = ["agent*"]

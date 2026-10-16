@@ -1,0 +1,9 @@
+langchain
+langchain-core
+langchain-openai
+langchain-tavily
+langgraph
+sqlalchemy
+psycopg[binary]
+python-dotenv
+pydantic
