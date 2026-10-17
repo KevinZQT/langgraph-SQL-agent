@@ -172,19 +172,6 @@ Start the development server from the repository root:
 
 Use the Studio URL printed in the terminal to inspect the registered agent and test messages. The SQL subgraph is invoked inside `query_database` and is compiled without its own checkpointer.
 
-## Evaluation
-
-The repository does not currently include an automated evaluation dataset or LLM-as-a-judge pipeline. The following manual checks can validate the core behavior against a populated Pagila database:
-
-| Case | Example | Check |
-| :--- | :--- | :--- |
-| Aggregation | “How many customers are in the database?” | Compare the answer with `SELECT COUNT(*) FROM customer` |
-| Join and ranking | “Show the five customers with the highest total payments.” | Verify joins, aggregation, ordering and returned rows |
-| Follow-up | “Show ten instead.” | Confirm the existing conversation context is used |
-| Empty result | Ask for a deliberately nonexistent film title | Confirm the answer distinguishes no rows from an execution failure |
-| Web search | Ask for recent PostgreSQL release information | Confirm Tavily is used and old SQL results are not shown |
-| Error recovery | Inspect a run with a SQL validation or execution error | Confirm regeneration stops when the retry budget is exhausted |
-
 ## Configuration
 
 Backend environment values are loaded from `.env`. `agent/configuration.py` resolves model and retry settings from runnable configuration first, then environment variables, then defaults. The main assistant model is initialized when the module loads, so restart the backend after changing `OPENAI_MODEL`.
