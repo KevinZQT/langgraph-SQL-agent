@@ -18,7 +18,7 @@ A natural language interface to PostgreSQL, built with LangChain and LangGraph a
 
 ## Architecture Overview
 
-The **Streamlit** frontend creates a conversation thread on the **LangGraph Agent Server** and submits each message through its wait endpoint. The main assistant uses **OpenAI** to choose between a **SQL subgraph** and **Tavily web search**. Database queries run against PostgreSQL through SQLAlchemy; tool results return to the assistant before it produces the final response.
+The Streamlit frontend creates a conversation thread on the LangGraph Agent Server and submits each message through its wait endpoint. The main assistant uses OpenAI to choose between a SQL subgraph and Tavily web search. Database queries run against PostgreSQL through SQLAlchemy; tool results return to the assistant before it produces the final response.
 
 <p align="center">
   <img src="docs/images/main_workflow.png" alt="SQL Agent main workflow: Streamlit, LangGraph Server, assistant tools and PostgreSQL" width="450"/>
@@ -55,7 +55,7 @@ The SQL workflow is defined in `agent/graph.py`. It prepares the question, loads
 | `retrieve_sql` | Execute validated SQL and collect results |
 | `failed_generate_sql` | Return a failure when the retry budget is exhausted |
 
-The default budget allows **one initial attempt plus two retries**. Schema-loading failures and model-provider failures are outside this SQL retry loop. Database execution uses a **read-only transaction**, a **10-second statement timeout**, and a **100-row fetch limit**. The displayed and downloaded results contain only those fetched rows.
+The default budget allows one initial attempt plus two retries. Schema-loading failures and model-provider failures are outside this SQL retry loop. Database execution uses a read-only transaction, a 10-second statement timeout, and a 100-row fetch limit. The displayed and downloaded results contain only those fetched rows.
 
 ## Technology Stack
 
