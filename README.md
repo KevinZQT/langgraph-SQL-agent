@@ -24,8 +24,6 @@ The **Streamlit** frontend creates a conversation thread on the **LangGraph Agen
   <img src="docs/images/main_workflow.png" alt="SQL Agent main workflow: Streamlit, LangGraph Server, assistant tools and PostgreSQL" width="450"/>
 </p>
 
-[Editable main workflow](docs/diagrams/main_workflow.excalidraw)
-
 ## ReAct Agent Loop
 
 The main agent is created with LangChain's `create_agent` in `agent/assistant.py`. It follows a model–tool–model loop: select a tool, inspect its result, and either continue working or return an answer. Parallel tool calls are disabled.
@@ -47,7 +45,6 @@ The SQL workflow is defined in `agent/graph.py`. It prepares the question, loads
   <img src="docs/images/sub_graph.png" alt="SQL subgraph with generation, validation, execution and bounded retries" width="450"/>
 </p>
 
-[Editable SQL subgraph](docs/diagrams/sub_graph.excalidraw)
 
 | Step | Responsibility |
 | :--- | :--- |
