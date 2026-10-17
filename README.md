@@ -21,7 +21,7 @@ A natural language interface to PostgreSQL, built with LangChain and LangGraph a
 The **Streamlit** frontend creates a conversation thread on the **LangGraph Agent Server** and submits each message through its wait endpoint. The main assistant uses **OpenAI** to choose between a **SQL subgraph** and **Tavily web search**. Database queries run against PostgreSQL through SQLAlchemy; tool results return to the assistant before it produces the final response.
 
 <p align="center">
-  <img src="docs/images/main_workflow.png" alt="SQL Agent main workflow: Streamlit, LangGraph Server, assistant tools and PostgreSQL" width="300"/>
+  <img src="docs/images/main_workflow.png" alt="SQL Agent main workflow: Streamlit, LangGraph Server, assistant tools and PostgreSQL" width="450"/>
 </p>
 
 [Editable main workflow](docs/diagrams/main_workflow.excalidraw)
@@ -44,7 +44,7 @@ The database tool sends a compact result preview to the model while retaining th
 The SQL workflow is defined in `agent/graph.py`. It prepares the question, loads the public schema and foreign keys, generates SQL, validates it, and executes it. Validation failures and caught SQL execution errors return to SQL generation while retries remain.
 
 <p align="center">
-  <img src="docs/images/sub_graph.png" alt="SQL subgraph with generation, validation, execution and bounded retries" width="650"/>
+  <img src="docs/images/sub_graph.png" alt="SQL subgraph with generation, validation, execution and bounded retries" width="450"/>
 </p>
 
 [Editable SQL subgraph](docs/diagrams/sub_graph.excalidraw)
