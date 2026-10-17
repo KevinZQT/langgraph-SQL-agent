@@ -12,7 +12,6 @@ A natural language interface to PostgreSQL, built with LangChain and LangGraph a
 - [Backend API Reference](#backend-api-reference)
 - [Frontend](#frontend)
 - [LangGraph Studio](#langgraph-studio)
-- [Evaluation](#evaluation)
 - [Configuration](#configuration)
 - [Getting Started](#getting-started)
 
